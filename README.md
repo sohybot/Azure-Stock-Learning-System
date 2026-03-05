@@ -72,7 +72,7 @@ https://github.com/username/repo-name/blob/main/Agent.mp4
 - 퀘스트 & 퀴즈 시스템
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
-<img width="350" height="503" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
+<img width="320" height="503" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
 https://github.com/username/repo-name/blob/main/Quest.mp4
 ---
 
