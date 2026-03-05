@@ -158,7 +158,8 @@ https://github.com/username/repo-name/blob/main/Quest.mp4
 | AI | Azure OpenAI (GPT-4o, GPT-4o-mini) |
 | Infra | Azure App Service |
 | DB | Azure PostgreSQL |
-| Algorithm | Genetic Algorithm, Simulated Annealing |<img width="550" height="228" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
+| Algorithm | Genetic Algorithm, Simulated Annealing |
+<img width="550" height="228" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
 
 ---
 
