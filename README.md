@@ -63,7 +63,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 실시간 포트폴리오 분석
 - 매매 기록 기반 개인화 피드백
 - 양방향 챗봇 인터페이스 지원
-https://github.com/username/repo-name/blob/main/Agent.mp4
+[https://github.com/sohybot/Azure-Stock-Learning-System/blob/main/Agent.mp4](https://raw.githubusercontent.com/sohybot/Azure-Stock-Learning-System/main/Agent.mp4)
 ---
 
 ## 3. 레벨 기반 학습 시스템
@@ -151,6 +151,7 @@ https://github.com/username/repo-name/blob/main/Quest.mp4
 
 # 기술 스택
 
+<img width="6000" height="258" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
 | 영역 | 기술 |
 |------|------|
 | Frontend | React, Vite |
@@ -159,7 +160,7 @@ https://github.com/username/repo-name/blob/main/Quest.mp4
 | Infra | Azure App Service |
 | DB | Azure PostgreSQL |
 | Algorithm | Genetic Algorithm, Simulated Annealing |
-<img width="550" height="228" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
+
 
 ---
 
