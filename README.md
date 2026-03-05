@@ -49,7 +49,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 탐욕·공포·군중심리 파라미터 반영
 - 인간 투자 심리 74% 유사도 구현 (백테스팅 기준)
 <img width="350" height="700" alt="스크린샷 2026-02-11 193459" src="https://github.com/user-attachments/assets/9c3761f6-2f65-4a3f-9f4f-e81d10ec4374" />
-<img width="350" height="700" alt="스크린샷 2026-02-12 095528" src="https://github.com/user-attachments/assets/b2d63d22-6da3-49d1-b619-733bea032078" />
+<img width="350" height="720" alt="스크린샷 2026-02-12 095528" src="https://github.com/user-attachments/assets/b2d63d22-6da3-49d1-b619-733bea032078" />
 
 ---
 
@@ -72,7 +72,7 @@ https://github.com/username/repo-name/blob/main/Agent.mp4
 - 퀘스트 & 퀴즈 시스템
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
-<img width="588" height="1113" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
+<img width="350" height="503" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
 https://github.com/username/repo-name/blob/main/Quest.mp4
 ---
 
