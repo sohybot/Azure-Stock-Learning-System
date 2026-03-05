@@ -75,8 +75,11 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
 <img width="320" height="703" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
-<img width="337" height="713" alt="스크린샷 2026-03-05 135039" src="https://github.com/user-attachments/assets/b661cf98-a554-4a52-a224-8390cda3e895" />
-<img width="335" height="701" alt="스크린샷 2026-03-05 135126" src="https://github.com/user-attachments/assets/90e3b922-6607-4fa7-a84e-5caa715aeb2e" />
+<img width="346" height="676" alt="image" src="https://github.com/user-attachments/assets/15956338-8d7f-48c1-a3c7-579948204096" />
+<img width="350" height="680" alt="image" src="https://github.com/user-attachments/assets/f1cfd3b2-d210-495a-9ba4-ad699af8be40" />
+<img width="351" height="671" alt="image" src="https://github.com/user-attachments/assets/4b77bf72-5ec1-43df-ba22-9c0527cdca8b" />
+
+
 
 ---
 
