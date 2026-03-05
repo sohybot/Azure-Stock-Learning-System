@@ -49,6 +49,8 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 가치/모멘텀/역발상 전략 성향 부여
 - 탐욕·공포·군중심리 파라미터 반영
 - 인간 투자 심리 74% 유사도 구현 (백테스팅 기준)
+<img width="711" height="1404" alt="스크린샷 2026-02-11 193459" src="https://github.com/user-attachments/assets/9c3761f6-2f65-4a3f-9f4f-e81d10ec4374" />
+<img width="755" height="1401" alt="스크린샷 2026-02-12 095528" src="https://github.com/user-attachments/assets/b2d63d22-6da3-49d1-b619-733bea032078" />
 
 ---
 
@@ -62,7 +64,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 실시간 포트폴리오 분석
 - 매매 기록 기반 개인화 피드백
 - 양방향 챗봇 인터페이스 지원
-
+https://github.com/username/repo-name/blob/main/agent.mp4
 ---
 
 ## 3. 레벨 기반 학습 시스템
@@ -71,7 +73,8 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 퀘스트 & 퀴즈 시스템
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
-
+<img width="588" height="1113" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
+https://github.com/username/repo-name/blob/main/quest.mp4
 ---
 
 # 기술적 챌린지 및 해결
@@ -135,8 +138,17 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - Backend (FastAPI)
 - AI Service (Azure OpenAI)
 - Database (Azure PostgreSQL)
+<img width="568" height="219" alt="image" src="https://github.com/user-attachments/assets/00883194-aad1-4bff-a2e0-08a06b8dbacd" />
 
 ---
+
+
+# 데이터 파이프라인
+<img width="799" height="539" alt="image" src="https://github.com/user-attachments/assets/1ed8f0d3-01d2-43e9-b7f0-b13eefd502c1" />
+
+
+---
+
 
 # 기술 스택
 
