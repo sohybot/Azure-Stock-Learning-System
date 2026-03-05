@@ -63,7 +63,6 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 실시간 포트폴리오 분석
 - 매매 기록 기반 개인화 피드백
 - 양방향 챗봇 인터페이스 지원
-[https://github.com/sohybot/Azure-Stock-Learning-System/blob/main/Agent.mp4](https://raw.githubusercontent.com/sohybot/Azure-Stock-Learning-System/main/Agent.mp4)
 <img width="333" height="688" alt="image" src="https://github.com/user-attachments/assets/7a01c920-c919-4a85-bba6-71a30b940a29" />
 <img width="335" height="685" alt="image" src="https://github.com/user-attachments/assets/7ee6cef9-b6fb-4c21-9eb1-046c9529b576" />
 
@@ -75,8 +74,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 퀘스트 & 퀴즈 시스템
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
-<img width="320" height="503" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
-https://github.com/username/repo-name/blob/main/Quest.mp4
+<img width="320" height="703" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
 <img width="337" height="713" alt="스크린샷 2026-03-05 135039" src="https://github.com/user-attachments/assets/b661cf98-a554-4a52-a224-8390cda3e895" />
 <img width="335" height="701" alt="스크린샷 2026-03-05 135126" src="https://github.com/user-attachments/assets/90e3b922-6607-4fa7-a84e-5caa715aeb2e" />
 
