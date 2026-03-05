@@ -11,8 +11,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 
 ## Demo Video
 
-[![ASFM Demo Video][(https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg)](https://youtu.be/VIDEO_LINK)
-](https://youtu.be/EAhGR9fCeow)
+[![EasyStock Demo Video](https://img.youtube.com/vi/EAhGR9fCeow/hqdefault.jpg)](https://youtu.be/EAhGR9fCeow)
 > Click the image to watch the full demo video.
 
 ---
@@ -49,8 +48,8 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 가치/모멘텀/역발상 전략 성향 부여
 - 탐욕·공포·군중심리 파라미터 반영
 - 인간 투자 심리 74% 유사도 구현 (백테스팅 기준)
-<img width="711" height="1404" alt="스크린샷 2026-02-11 193459" src="https://github.com/user-attachments/assets/9c3761f6-2f65-4a3f-9f4f-e81d10ec4374" />
-<img width="755" height="1401" alt="스크린샷 2026-02-12 095528" src="https://github.com/user-attachments/assets/b2d63d22-6da3-49d1-b619-733bea032078" />
+<img width="350" height="700" alt="스크린샷 2026-02-11 193459" src="https://github.com/user-attachments/assets/9c3761f6-2f65-4a3f-9f4f-e81d10ec4374" />
+<img width="350" height="700" alt="스크린샷 2026-02-12 095528" src="https://github.com/user-attachments/assets/b2d63d22-6da3-49d1-b619-733bea032078" />
 
 ---
 
