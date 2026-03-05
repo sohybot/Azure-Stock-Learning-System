@@ -64,7 +64,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 - 실시간 포트폴리오 분석
 - 매매 기록 기반 개인화 피드백
 - 양방향 챗봇 인터페이스 지원
-https://github.com/username/repo-name/blob/main/agent.mp4
+https://github.com/username/repo-name/blob/main/Agent.mp4
 ---
 
 ## 3. 레벨 기반 학습 시스템
@@ -74,7 +74,7 @@ https://github.com/username/repo-name/blob/main/agent.mp4
 - "개념 → 실습 → 피드백 → 전략 수정" 학습 루프
 - 행동 데이터 기반 성장 지표 제공
 <img width="588" height="1113" alt="스크린샷 2026-02-12 101437" src="https://github.com/user-attachments/assets/6e4dcc80-0a8e-476c-8e4b-f0b26fe556a8" />
-https://github.com/username/repo-name/blob/main/quest.mp4
+https://github.com/username/repo-name/blob/main/Quest.mp4
 ---
 
 # 기술적 챌린지 및 해결
