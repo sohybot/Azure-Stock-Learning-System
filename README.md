@@ -157,7 +157,6 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 
 # 기술 스택
 
-<img width="6000" height="258" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
 | 영역 | 기술 |
 |------|------|
 | Frontend | React, Vite |
@@ -167,7 +166,7 @@ Azure 클라우드 기반 AI 투자 교육 플랫폼입니다.
 | DB | Azure PostgreSQL |
 | Algorithm | Genetic Algorithm, Simulated Annealing |
 
-
+<img width="6000" height="258" alt="image" src="https://github.com/user-attachments/assets/cea14294-0e17-4c44-8d8e-fcf23b0be320" />
 ---
 
 # 👩‍💼 Role (기획)
