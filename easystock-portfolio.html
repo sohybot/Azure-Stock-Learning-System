@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyStock — 박소현 AI 프로덕트 기획자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --bg2: #0f1218;
+    --bg3: #161b22;
+    --surface: #1c2128;
+    --border: rgba(255,255,255,0.07);
+    --accent: #3fb950;      /* green — stock up */
+    --accent-red: #f85149;  /* red — stock down */
+    --accent2: #58a6ff;     /* blue — info */
+    --accent3: #d2a8ff;     /* purple — mentor */
+    --accent-gold: #e3b341; /* gold — level/quest */
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* noise */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.35;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,12,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    opacity: 0.8;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(63,185,80,0.07) 0%, transparent 70%);
+    top: 40%; left: 40%;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-label::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.8rem, 7vw, 7rem);
+    line-height: 0.92;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+  .hero-title .outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+    line-height: 1.85;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent); color: #0a0c0f;
+    padding: 0.85rem 2rem; font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.05em; text-decoration: none; border-radius: 3px;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #56d364; transform: translateY(-2px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border: 1px solid var(--border); color: var(--text);
+    padding: 0.85rem 2rem; font-size: 0.85rem; letter-spacing: 0.05em;
+    text-decoration: none; border-radius: 3px; transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ── HERO MOCKUP — mini stock dashboard ── */
+  .hero-mockup {
+    opacity: 0;
+    animation: fadeIn 1s 0.8s forwards;
+  }
+
+  .mockup-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  }
+
+  .mockup-bar {
+    background: var(--bg3);
+    padding: 0.9rem 1.2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #f85149; }
+  .dot-y { background: #e3b341; }
+  .dot-g { background: #3fb950; }
+  .mockup-title { margin-left: 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+
+  .mockup-body { padding: 1.4rem; }
+
+  /* mini chart */
+  .mini-chart {
+    width: 100%;
+    height: 80px;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .mini-chart svg { width: 100%; height: 100%; }
+
+  .ticker-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1rem;
+  }
+  .ticker-name { font-size: 0.9rem; font-weight: 700; color: var(--white); }
+  .ticker-price { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--accent); }
+  .ticker-change { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.2); padding: 0.15rem 0.4rem; border-radius: 2px; }
+
+  .agent-row {
+    display: flex; gap: 0.5rem; margin-bottom: 0.8rem;
+  }
+  .agent-chip {
+    font-size: 0.62rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.25rem 0.55rem;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .chip-stable { background: rgba(88,166,255,0.1); color: var(--accent2); border-color: rgba(88,166,255,0.2); }
+  .chip-aggro  { background: rgba(248,81,73,0.1);  color: var(--accent-red); border-color: rgba(248,81,73,0.2); }
+  .chip-mentor { background: rgba(210,168,255,0.1);color: var(--accent3); border-color: rgba(210,168,255,0.2); }
+
+  .level-bar-wrap { margin-top: 0.8rem; }
+  .level-bar-label {
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; color: var(--muted); margin-bottom: 0.35rem;
+  }
+  .level-bar { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+  .level-fill { height: 100%; width: 72%; background: linear-gradient(90deg, var(--accent), var(--accent-gold)); border-radius: 2px; animation: grow 2s ease-out; }
+  @keyframes grow { from { width: 0 } }
+
+  .quest-tag {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    margin-top: 0.8rem;
+    font-size: 0.62rem; font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-gold);
+    background: rgba(227,179,65,0.1);
+    border: 1px solid rgba(227,179,65,0.2);
+    padding: 0.25rem 0.6rem; border-radius: 2px;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 8rem 4rem; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.25em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+    color: var(--white); line-height: 1;
+    letter-spacing: 0.02em; margin-bottom: 1rem;
+  }
+  .section-desc { color: var(--muted); font-size: 0.95rem; max-width: 560px; line-height: 1.8; }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── BACKGROUND / VALUES ── */
+  #background { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .bg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 4rem; align-items: start; }
+
+  .problem-list { display: flex; flex-direction: column; gap: 0; }
+  .prob-item {
+    display: flex; align-items: flex-start; gap: 1.2rem;
+    position: relative;
+  }
+  .prob-item:not(:last-child)::after {
+    content: ''; position: absolute; left: 19px; top: 40px;
+    width: 1px; height: 100%; background: var(--border);
+  }
+  .prob-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .prob-content { padding: 0 0 2.5rem; }
+  .prob-content h4 { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+  .prob-content p  { font-size: 0.8rem; color: var(--muted); }
+
+  .value-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .value-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    transition: transform 0.2s, border-left-color 0.2s;
+  }
+  .value-card:hover { transform: translateX(4px); border-left-color: var(--accent-gold); }
+  .value-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .value-card p  { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── FEATURES ── */
+  #features { position: relative; }
+
+  .features-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 4rem; }
+
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+  .feat-block {
+    background: var(--bg); padding: 2.5rem; position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .feat-block:hover { background: var(--surface); }
+
+  .feat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; line-height: 1;
+    color: rgba(255,255,255,0.04);
+    position: absolute; top: 0.5rem; right: 1rem;
+  }
+
+  .feat-icon-wrap {
+    width: 48px; height: 48px;
+    background: rgba(63,185,80,0.08);
+    border: 1px solid rgba(63,185,80,0.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+  }
+
+  .feat-block h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.6rem; }
+  .feat-block p  { font-size: 0.82rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+
+  .feat-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .feat-tag {
+    font-size: 0.62rem; font-family: 'JetBrains Mono', monospace;
+    background: rgba(88,166,255,0.08); color: var(--accent2);
+    border: 1px solid rgba(88,166,255,0.18);
+    padding: 0.2rem 0.5rem; border-radius: 2px;
+  }
+
+  /* ── TECH / CHALLENGES ── */
+  #tech { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .challenges-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
+
+  .challenge-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .challenge-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .challenge-card:hover { border-color: rgba(63,185,80,0.2); transform: translateY(-2px); }
+
+  .challenge-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent-red);
+  }
+  .challenge-card.resolved::before { background: var(--accent); }
+
+  .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; color: var(--muted);
+    letter-spacing: 0.1em; margin-bottom: 0.5rem;
+  }
+  .challenge-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+  .ch-problem { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.7; }
+
+  .ch-solution-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+  .ch-solution { font-size: 0.78rem; color: var(--text); line-height: 1.7; margin-bottom: 0.7rem; }
+
+  .ch-result {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    background: rgba(63,185,80,0.08);
+    border: 1px solid rgba(63,185,80,0.2);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+  }
+  .ch-result::before { content: '✓'; }
+
+  /* arch side */
+  .arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; }
+  .arch-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); margin-bottom: 1.4rem; letter-spacing: 0.05em; }
+
+  .tier-row {
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 0.8rem 1.2rem; align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tier-row:last-child { border-bottom: none; }
+  .tier-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem; color: var(--accent2);
+    white-space: nowrap;
+  }
+  .tier-tech { font-size: 0.8rem; color: var(--text); }
+  .tier-tech span {
+    display: inline-block;
+    background: var(--bg3); border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); padding: 0.15rem 0.45rem; border-radius: 2px;
+    margin: 0.1rem 0.15rem 0.1rem 0;
+  }
+
+  /* ── IMPACT ── */
+  #impact { position: relative; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .stat-cell {
+    background: var(--bg); padding: 2.5rem 2rem; text-align: center;
+    transition: background 0.3s;
+  }
+  .stat-cell:hover { background: var(--surface); }
+
+  .stat-cell .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem; color: var(--accent); line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-cell .big.red { color: var(--accent-red); }
+  .stat-cell .big.blue { color: var(--accent2); }
+  .stat-cell .big.gold { color: var(--accent-gold); }
+
+  .stat-cell .label { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+
+  .role-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 2rem;
+    position: relative; overflow: hidden;
+  }
+  .role-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .role-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+
+  .role-item {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.8rem; color: var(--text);
+  }
+  .role-item:last-child { border-bottom: none; }
+  .role-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.55rem; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); border-top: 1px solid var(--border); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+
+  .about-name { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--white); letter-spacing: 0.05em; line-height: 1; margin-bottom: 0.5rem; }
+  .about-role { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 2rem; }
+  .about-text { font-size: 0.9rem; color: var(--muted); line-height: 1.9; margin-bottom: 2rem; }
+
+  .skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--muted); padding: 0.35rem 0.8rem; border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  .highlight-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .h-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.4rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .h-card:hover { border-color: rgba(63,185,80,0.2); }
+  .h-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .h-content h4 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+  .h-content p  { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); letter-spacing: 0.1em; }
+  .footer-logo span { color: var(--accent); }
+  .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); text-align: center; line-height: 1.8; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to   { opacity: 1; } }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Easy<span>Stock</span></div>
+  <ul class="nav-links">
+    <li><a href="#background">기획배경</a></li>
+    <li><a href="#features">핵심기능</a></li>
+    <li><a href="#tech">기술챌린지</a></li>
+    <li><a href="#impact">임팩트</a></li>
+    <li><a href="#about">기획자</a></li>
+  </ul>
+  <div class="nav-tag">FinTech AI</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+
+  <div>
+    <div class="hero-label">AI Product Portfolio · 박소현</div>
+    <h1 class="hero-title">
+      AI가 만드는<br>가장 현실적인<br><span class="outline">주식 시장</span>
+    </h1>
+    <p class="hero-sub">
+      행동경제학 기반 <strong>500명 AI 에이전트 사회</strong>와 레벨 기반 학습 시스템으로, 단순 모의투자를 넘어 실제 심리·유동성·전략 상호작용을 경험하는 AI 투자 교육 플랫폼입니다.
+    </p>
+    <div class="hero-cta">
+      <a href="#features" class="btn-primary">핵심 기능 보기 →</a>
+      <a href="#tech" class="btn-ghost">기술 챌린지</a>
+    </div>
+  </div>
+
+  <!-- Mini Stock Dashboard Mockup -->
+  <div class="hero-mockup">
+    <div class="mockup-card">
+      <div class="mockup-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="mockup-title">EasyStock · AI INVESTMENT SIMULATOR</span>
+      </div>
+      <div class="mockup-body">
+        <div class="ticker-row">
+          <div>
+            <div class="ticker-name">SAMSUNG ELECTR.</div>
+            <div style="font-size:0.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">005930.KS</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="ticker-price">₩72,400</div>
+            <div class="ticker-change">+2.34%  ↑</div>
+          </div>
+        </div>
+
+        <!-- SVG mini candlestick chart -->
+        <div class="mini-chart">
+          <svg viewBox="0 0 320 80" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3fb950" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#3fb950" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- area fill -->
+            <path d="M0 60 L20 55 L40 58 L60 50 L80 45 L100 48 L120 38 L140 35 L160 40 L180 30 L200 25 L220 28 L240 18 L260 22 L280 15 L300 10 L320 8 L320 80 L0 80 Z" fill="url(#chartGrad)"/>
+            <!-- line -->
+            <polyline points="0,60 20,55 40,58 60,50 80,45 100,48 120,38 140,35 160,40 180,30 200,25 220,28 240,18 260,22 280,15 300,10 320,8" fill="none" stroke="#3fb950" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="agent-row">
+          <span class="agent-chip chip-stable">🐘 안정형 에이전트</span>
+          <span class="agent-chip chip-aggro">⚡ 공격형 에이전트</span>
+          <span class="agent-chip chip-mentor">🤖 AI 멘토</span>
+        </div>
+
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);margin-bottom:0.4rem;">MARKET ACTIVITY · 500 AGENTS LIVE</div>
+        <div style="display:flex;gap:1rem;margin-bottom:0.8rem;">
+          <div style="font-size:0.72rem;color:var(--accent);">매수 263명 ↑</div>
+          <div style="font-size:0.72rem;color:var(--accent-red);">매도 237명 ↓</div>
+        </div>
+
+        <div class="level-bar-wrap">
+          <div class="level-bar-label">
+            <span>Lv.7 투자 전문가</span>
+            <span>72% → Lv.8</span>
+          </div>
+          <div class="level-bar"><div class="level-fill"></div></div>
+        </div>
+
+        <div class="quest-tag">🏆 퀘스트: 5일 연속 수익 달성 (3/5)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKGROUND -->
+<section id="background">
+  <div class="section-label">01 · Background</div>
+  <h2 class="section-title">기획 배경 &<br>서비스 핵심 가치</h2>
+
+  <div class="bg-grid">
+    <div>
+      <p class="section-desc" style="margin-bottom:2rem;">이론 중심 투자 교육의 한계와 단순 시세 반영형 모의투자 플랫폼의 구조적 문제를 해결하는 실전형 AI 학습 환경을 설계했습니다.</p>
+
+      <div class="problem-list">
+        <div class="prob-item">
+          <div class="prob-icon">📚</div>
+          <div class="prob-content">
+            <h4>이론과 실전의 괴리</h4>
+            <p>개념 학습 후 실제 투자로 이어지는 경험 설계 부재</p>
+          </div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">🧠</div>
+          <div class="prob-content">
+            <h4>심리적 오류 반복</h4>
+            <p>탐욕·공포·군중심리 등 투자 심리 훈련 환경 없음</p>
+          </div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">📊</div>
+          <div class="prob-content">
+            <h4>단순 시세형 모의투자 한계</h4>
+            <p>실제 시장과 다른 고립된 환경, 상호작용 부재</p>
+          </div>
+        </div>
+        <div class="prob-item">
+          <div class="prob-icon">🤝</div>
+          <div class="prob-content">
+            <h4>시장 참여자 간 상호작용 부재</h4>
+            <p>다양한 투자 전략과 성향을 경험할 기회 없음</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="value-cards reveal">
+      <div class="value-card">
+        <h4>🎯 행동경제학 기반 투자 심리 학습</h4>
+        <p>탐욕·공포·군중심리 파라미터를 반영한 AI 에이전트와 실시간 상호작용하며 투자 심리 오류를 체험하고 교정합니다.</p>
+      </div>
+      <div class="value-card">
+        <h4>🤖 실시간 AI 에이전트 시장 상호작용</h4>
+        <p>500명 규모의 AI 생태계와 실제 매수·매도·시장 유동성 변화를 경험합니다. 인간 투자 심리 유사도 74% 구현.</p>
+      </div>
+      <div class="value-card">
+        <h4>💬 개인화 AI 멘토 피드백</h4>
+        <p>4가지 투자 철학 기반 멘토가 매매 기록을 분석해 맞춤 피드백을 제공하고 양방향 챗봇으로 메타인지를 향상시킵니다.</p>
+      </div>
+      <div class="value-card">
+        <h4>💰 비용 최적화를 고려한 상용화 가능 구조</h4>
+        <p>프롬프트 압축·동적 라우팅으로 API 비용 49.5% 절감하면서 에이전트 지능 점수 93.4점을 유지합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-header">
+    <div>
+      <div class="section-label">02 · Core Features</div>
+      <h2 class="section-title">3가지<br>핵심 기능</h2>
+    </div>
+    <p class="section-desc">단계별 학습 시스템, 생성형 에이전트 사회, AI 멘토 피드백이 유기적으로 연결되어 "개념 → 실습 → 피드백 → 전략 수정"의 완벽한 순환 학습 루프를 구현합니다.</p>
+  </div>
+
+  <div class="features-grid reveal">
+    <div class="feat-block">
+      <div class="feat-num">1</div>
+      <div class="feat-icon-wrap">🎮</div>
+      <h3>생성형 에이전트 사회</h3>
+      <p>500명 규모 AI 투자자 생태계. 단순 알고리즘이 아닌 인간의 비이성적 판단까지 모사하는 에이전트를 구축했습니다. 고래/개미 자본 규모를 분리하고 탐욕·공포·군중심리 파라미터를 반영합니다.</p>
+      <div class="feat-tags">
+        <span class="feat-tag">500명 AI 에이전트</span>
+        <span class="feat-tag">행동경제학</span>
+        <span class="feat-tag">유사도 74%</span>
+      </div>
+    </div>
+
+    <div class="feat-block">
+      <div class="feat-num">2</div>
+      <div class="feat-icon-wrap">🤖</div>
+      <h3>AI 멘토 대시보드</h3>
+      <p>4가지 투자 철학 기반 멘토(안정형·퀀트·모멘텀·역발상)가 실시간 포트폴리오를 분석하고 매매 기록 기반 개인화 피드백을 제공합니다. 양방향 챗봇으로 메타인지를 향상시킵니다.</p>
+      <div class="feat-tags">
+        <span class="feat-tag">4가지 멘토 유형</span>
+        <span class="feat-tag">개인화 피드백</span>
+        <span class="feat-tag">챗봇 인터페이스</span>
+      </div>
+    </div>
+
+    <div class="feat-block">
+      <div class="feat-num">3</div>
+      <div class="feat-icon-wrap">📈</div>
+      <h3>레벨 기반 학습 시스템</h3>
+      <p>Beginner → Expert 단계별 구조로 기초부터 심화까지 성장 퀘스트를 설계했습니다. "개념 학습 → 실전 투자 → 피드백 → 전략 수정"의 완벽한 순환 구조를 구현합니다.</p>
+      <div class="feat-tags">
+        <span class="feat-tag">레벨업 퀘스트</span>
+        <span class="feat-tag">퀴즈 시스템</span>
+        <span class="feat-tag">성장 지표</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH CHALLENGES -->
+<section id="tech">
+  <div class="section-label">03 · Technical Challenges</div>
+  <h2 class="section-title">기술 챌린지 &<br>해결 전략</h2>
+  <p class="section-desc">3가지 핵심 기술 문제를 직접 정의하고 해결하여 상용화 가능한 아키텍처를 설계했습니다.</p>
+
+  <div class="challenges-grid reveal">
+    <div class="challenge-list">
+      <div class="challenge-card resolved">
+        <div class="ch-num">CHALLENGE 01</div>
+        <h4>LLM API 비용 폭증</h4>
+        <p class="ch-problem">500명 에이전트가 매 틱마다 뉴스를 분석하며 Azure OpenAI 토큰 비용이 급증하는 문제가 발생했습니다.</p>
+        <div class="ch-solution-label">해결 전략</div>
+        <p class="ch-solution">메타 휴리스틱 기반 워크플로우 최적화 (GA + SA), 프롬프트 압축률 최적화, 동적 라우팅 구조 설계, 자가 검증 노드 배치 구조 개선</p>
+        <span class="ch-result">API 비용 49.5% 절감 · 에이전트 지능 점수 93.4 유지</span>
+      </div>
+
+      <div class="challenge-card resolved">
+        <div class="ch-num">CHALLENGE 02</div>
+        <h4>Human-in-the-Loop 병목</h4>
+        <p class="ch-problem">AI 주문 대기열로 인한 사용자 체결 지연이 발생해 체감 UX가 크게 저하되었습니다.</p>
+        <div class="ch-solution-label">해결 전략</div>
+        <p class="ch-solution">Market Maker 기반 동적 유동성 공급 로직 설계, 정상 호가 범위 내 즉시 체결 구조 구현</p>
+        <span class="ch-result">사용자 주문 1초 이내 체결 · 체감 UX 대폭 개선</span>
+      </div>
+
+      <div class="challenge-card resolved">
+        <div class="ch-num">CHALLENGE 03</div>
+        <h4>DB 과부하 & 성능 저하</h4>
+        <p class="ch-problem">trades 테이블 수십만 건 누적으로 Full Table Scan이 발생해 쿼리 성능이 급격히 저하되었습니다.</p>
+        <div class="ch-solution-label">해결 전략</div>
+        <p class="ch-solution">Timestamp 인덱싱 적용, 거래량 계산 로직 비동기 분리, 메모리 플러시 스크립트 설계</p>
+        <span class="ch-result">쿼리 성능 최적화 완료</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="arch-box">
+        <h3>시스템 아키텍처</h3>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:1.2rem;">4-Tier Architecture · 순환형 데이터 파이프라인</div>
+
+        <div class="tier-row">
+          <div class="tier-label">CLIENT</div>
+          <div class="tier-tech"><span>React</span><span>Vite</span></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label">BACKEND</div>
+          <div class="tier-tech"><span>FastAPI</span><span>Uvicorn</span><span>Python Asyncio</span></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label">AI SERVICE</div>
+          <div class="tier-tech"><span>Azure OpenAI</span><span>GPT-4o</span><span>GPT-4o-mini</span></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label">DATABASE</div>
+          <div class="tier-tech"><span>Azure PostgreSQL</span></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label">ALGORITHM</div>
+          <div class="tier-tech"><span>Genetic Algorithm</span><span>Simulated Annealing</span></div>
+        </div>
+        <div class="tier-row">
+          <div class="tier-label">INFRA</div>
+          <div class="tier-tech"><span>Azure App Service</span></div>
+        </div>
+
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-bottom:0.8rem;">DATA PIPELINE LOOP</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
+            <span style="font-size:0.72rem;color:var(--text);">뉴스 수집</span>
+            <span style="color:var(--accent);font-size:0.8rem;">→</span>
+            <span style="font-size:0.72rem;color:var(--text);">AI 분석</span>
+            <span style="color:var(--accent);font-size:0.8rem;">→</span>
+            <span style="font-size:0.72rem;color:var(--text);">에이전트 행동</span>
+            <span style="color:var(--accent);font-size:0.8rem;">→</span>
+            <span style="font-size:0.72rem;color:var(--text);">시장 변동</span>
+            <span style="color:var(--accent);font-size:0.8rem;">→</span>
+            <span style="font-size:0.72rem;color:var(--text);">피드백</span>
+            <span style="color:var(--accent-gold);font-size:0.8rem;">↩</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section id="impact">
+  <div class="section-label">04 · Impact & Role</div>
+  <h2 class="section-title">프로젝트 임팩트 &<br>기획 역할</h2>
+
+  <div class="stats-row reveal">
+    <div class="stat-cell">
+      <div class="big">49.5<span style="font-size:2rem;">%</span></div>
+      <div class="label">API 비용 절감<br>지능 점수 유지</div>
+    </div>
+    <div class="stat-cell">
+      <div class="big blue">&lt;1<span style="font-size:2rem;">s</span></div>
+      <div class="label">사용자 주문<br>체결 속도</div>
+    </div>
+    <div class="stat-cell">
+      <div class="big gold">500<span style="font-size:2rem;">명</span></div>
+      <div class="label">AI 에이전트<br>생태계 규모</div>
+    </div>
+    <div class="stat-cell">
+      <div class="big">74<span style="font-size:2rem;">%</span></div>
+      <div class="label">인간 투자 심리<br>유사도 (백테스팅)</div>
+    </div>
+  </div>
+
+  <div class="role-grid reveal">
+    <div class="role-card">
+      <h3>👩‍💼 기획 역할 (Planning Role)</h3>
+      <div class="role-item"><div class="role-dot"></div>인앱 UI/UX 정보 구조(IA) 및 사용자 동선 최적화 설계</div>
+      <div class="role-item"><div class="role-dot"></div>AI 멘토 개인화 피드백 UX 및 페르소나 기획</div>
+      <div class="role-item"><div class="role-dot"></div>행동경제학 기반 학습 루프 구조화</div>
+      <div class="role-item"><div class="role-dot"></div>기술 제약을 고려한 실행 가능한 서비스 구조 기획</div>
+      <div class="role-item"><div class="role-dot"></div>시연 영상 스토리라인 구성 및 제작</div>
+    </div>
+
+    <div class="role-card">
+      <h3>🏆 핵심 성과 요약</h3>
+      <div class="role-item"><div class="role-dot"></div>Azure OpenAI API 비용 49.5% 절감 달성 (Pareto 최적점 도달)</div>
+      <div class="role-item"><div class="role-dot"></div>사용자 주문 Sub-second 체결 구조 구현</div>
+      <div class="role-item"><div class="role-dot"></div>대규모 생성형 에이전트 기반 상용화 가능 아키텍처 설계</div>
+      <div class="role-item"><div class="role-dot"></div>투자 심리 74% 유사도 백테스팅 검증 완료</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">05 · About</div>
+  <div class="about-grid">
+    <div>
+      <div class="about-name">박소현</div>
+      <div class="about-role">AI PRODUCT PLANNER</div>
+      <p class="about-text">
+        FinTech 서비스의 핵심 사용자 문제인 "투자 심리 훈련"을 AI로 해결하고자 EasyStock을 기획했습니다. 단순 기능 기획을 넘어 행동경제학 원리를 서비스 구조에 내재화하고, 기술 제약 속에서 상용화 가능한 아키텍처를 설계하는 데 집중했습니다.
+      </p>
+      <div class="skill-chips">
+        <span class="chip">AI Product Planning</span>
+        <span class="chip">FinTech UX</span>
+        <span class="chip">Azure OpenAI</span>
+        <span class="chip">행동경제학</span>
+        <span class="chip">LLM 최적화</span>
+        <span class="chip">에이전트 설계</span>
+        <span class="chip">IA 설계</span>
+        <span class="chip">서비스 기획</span>
+      </div>
+    </div>
+
+    <div class="highlight-cards">
+      <div class="h-card">
+        <div class="h-icon">🧠</div>
+        <div class="h-content">
+          <h4>행동경제학을 서비스 구조로 내재화</h4>
+          <p>탐욕·공포·군중심리 등 투자 심리 이론을 에이전트 파라미터와 학습 루프에 직접 설계하여 이론과 실전을 연결했습니다.</p>
+        </div>
+      </div>
+      <div class="h-card">
+        <div class="h-icon">💡</div>
+        <div class="h-content">
+          <h4>기술 제약을 기회로 전환한 비용 최적화</h4>
+          <p>LLM 비용 폭증 문제를 메타 휴리스틱(GA·SA) 기반 워크플로우 최적화로 해결. API 비용 49.5% 절감과 지능 점수 유지를 동시에 달성했습니다.</p>
+        </div>
+      </div>
+      <div class="h-card">
+        <div class="h-icon">📐</div>
+        <div class="h-content">
+          <h4>PoC에서 상용화 가능 구조로</h4>
+          <p>4-Tier 아키텍처 설계와 Market Maker 기반 유동성 공급 로직으로 대규모 생성형 에이전트 서비스의 상용화 가능성을 검증했습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Easy<span>Stock</span></div>
+  <div class="footer-meta">
+    FinTech AI Portfolio · 박소현<br>
+    <span style="font-size:0.6rem;opacity:0.5;">Azure OpenAI · FastAPI · React · PostgreSQL · Genetic Algorithm</span>
+  </div>
+  <div class="footer-links">
+    <a href="#hero">↑ 맨 위로</a>
+    <a href="#background">기획배경</a>
+    <a href="#tech">기술챌린지</a>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
