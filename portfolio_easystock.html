@@ -13,11 +13,11 @@
     --bg3: #161b22;
     --surface: #1c2128;
     --border: rgba(255,255,255,0.07);
-    --accent: #3fb950;      /* green — stock up */
-    --accent-red: #f85149;  /* red — stock down */
-    --accent2: #58a6ff;     /* blue — info */
-    --accent3: #d2a8ff;     /* purple — mentor */
-    --accent-gold: #e3b341; /* gold — level/quest */
+    --accent: #3fb950;
+    --accent-red: #f85149;
+    --accent2: #58a6ff;
+    --accent3: #d2a8ff;
+    --accent-gold: #e3b341;
     --text: #e6edf3;
     --muted: #7d8590;
     --white: #ffffff;
@@ -35,7 +35,6 @@
     overflow-x: hidden;
   }
 
-  /* noise */
   body::before {
     content: '';
     position: fixed;
@@ -45,6 +44,56 @@
     z-index: 9999;
     opacity: 0.35;
   }
+
+  /* ── LANGUAGE TOGGLE ── */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .lang-toggle-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .lang-toggle-label.active { color: var(--accent); }
+
+  .toggle-switch {
+    width: 44px;
+    height: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .toggle-switch:hover { border-color: var(--accent); }
+
+  .toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: transform 0.25s cubic-bezier(.4,0,.2,1), background 0.2s;
+  }
+
+  body.lang-en .toggle-knob {
+    transform: translateX(22px);
+    background: var(--accent);
+  }
+  body.lang-en .toggle-switch { border-color: var(--accent); }
+
+  /* Text switching */
+  [data-ko], [data-en] { transition: opacity 0.15s; }
+  body.lang-en [data-ko] { display: none !important; }
+  body:not(.lang-en) [data-en] { display: none !important; }
 
   /* ── NAV ── */
   nav {
@@ -70,6 +119,12 @@
     gap: 0.5rem;
   }
   .nav-logo span { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
 
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
@@ -179,7 +234,7 @@
   }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
-  /* ── HERO MOCKUP — mini stock dashboard ── */
+  /* ── HERO MOCKUP ── */
   .hero-mockup {
     opacity: 0;
     animation: fadeIn 1s 0.8s forwards;
@@ -207,26 +262,15 @@
 
   .mockup-body { padding: 1.4rem; }
 
-  /* mini chart */
-  .mini-chart {
-    width: 100%;
-    height: 80px;
-    position: relative;
-    margin-bottom: 1rem;
-  }
+  .mini-chart { width: 100%; height: 80px; position: relative; margin-bottom: 1rem; }
   .mini-chart svg { width: 100%; height: 100%; }
 
-  .ticker-row {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 1rem;
-  }
+  .ticker-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
   .ticker-name { font-size: 0.9rem; font-weight: 700; color: var(--white); }
   .ticker-price { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--accent); }
   .ticker-change { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); background: rgba(63,185,80,0.1); border: 1px solid rgba(63,185,80,0.2); padding: 0.15rem 0.4rem; border-radius: 2px; }
 
-  .agent-row {
-    display: flex; gap: 0.5rem; margin-bottom: 0.8rem;
-  }
+  .agent-row { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
   .agent-chip {
     font-size: 0.62rem;
     font-family: 'JetBrains Mono', monospace;
@@ -278,20 +322,16 @@
   }
   .section-desc { color: var(--muted); font-size: 0.95rem; max-width: 560px; line-height: 1.8; }
 
-  /* reveal */
   .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ── BACKGROUND / VALUES ── */
+  /* ── BACKGROUND ── */
   #background { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
   .bg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; margin-top: 4rem; align-items: start; }
 
   .problem-list { display: flex; flex-direction: column; gap: 0; }
-  .prob-item {
-    display: flex; align-items: flex-start; gap: 1.2rem;
-    position: relative;
-  }
+  .prob-item { display: flex; align-items: flex-start; gap: 1.2rem; position: relative; }
   .prob-item:not(:last-child)::after {
     content: ''; position: absolute; left: 19px; top: 40px;
     width: 1px; height: 100%; background: var(--border);
@@ -359,7 +399,7 @@
     padding: 0.2rem 0.5rem; border-radius: 2px;
   }
 
-  /* ── TECH / CHALLENGES ── */
+  /* ── TECH ── */
   #tech { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
   .challenges-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 4rem; }
@@ -385,11 +425,7 @@
   }
   .challenge-card.resolved::before { background: var(--accent); }
 
-  .ch-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem; color: var(--muted);
-    letter-spacing: 0.1em; margin-bottom: 0.5rem;
-  }
+  .ch-num { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
   .challenge-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
   .ch-problem { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.7; }
 
@@ -411,7 +447,6 @@
   }
   .ch-result::before { content: '✓'; }
 
-  /* arch side */
   .arch-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; }
   .arch-box h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--white); margin-bottom: 1.4rem; letter-spacing: 0.05em; }
 
@@ -422,11 +457,7 @@
     border-bottom: 1px solid var(--border);
   }
   .tier-row:last-child { border-bottom: none; }
-  .tier-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem; color: var(--accent2);
-    white-space: nowrap;
-  }
+  .tier-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent2); white-space: nowrap; }
   .tier-tech { font-size: 0.8rem; color: var(--text); }
   .tier-tech span {
     display: inline-block;
@@ -437,91 +468,51 @@
   }
 
   /* ── IMPACT ── */
-  #impact { position: relative; }
-
-  .stats-row {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 1.5px; background: var(--border);
-    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
-    margin-top: 4rem;
-  }
-
-  .stat-cell {
-    background: var(--bg); padding: 2.5rem 2rem; text-align: center;
-    transition: background 0.3s;
-  }
-  .stat-cell:hover { background: var(--surface); }
-
-  .stat-cell .big {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3.5rem; color: var(--accent); line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-  .stat-cell .big.red { color: var(--accent-red); }
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 3rem; margin-top: 3rem; }
+  .stat-cell { background: var(--surface); padding: 2.5rem 2rem; text-align: center; }
+  .stat-cell .big { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,5vw,4.5rem); color: var(--accent); line-height: 1; margin-bottom: 0.5rem; }
   .stat-cell .big.blue { color: var(--accent2); }
   .stat-cell .big.gold { color: var(--accent-gold); }
+  .stat-cell .label { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
 
-  .stat-cell .label { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-
-  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
-
-  .role-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 2rem;
-    position: relative; overflow: hidden;
-  }
-  .role-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-    height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2));
-  }
-
-  .role-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; }
-
-  .role-item {
-    display: flex; align-items: flex-start; gap: 0.7rem;
-    padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    font-size: 0.8rem; color: var(--text);
-  }
-  .role-item:last-child { border-bottom: none; }
-  .role-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.55rem; }
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 2rem; }
+  .role-card h3 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 1.2rem; }
+  .role-item { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.7rem; line-height: 1.6; }
+  .role-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-top: 0.5rem; flex-shrink: 0; }
 
   /* ── ABOUT ── */
-  #about { background: var(--bg2); border-top: 1px solid var(--border); }
-
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
-
-  .about-name { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--white); letter-spacing: 0.05em; line-height: 1; margin-bottom: 0.5rem; }
-  .about-role { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 2rem; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 6rem; align-items: start; }
+  .about-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem,4vw,4rem); color: var(--white); letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+  .about-role { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1.5rem; }
   .about-text { font-size: 0.9rem; color: var(--muted); line-height: 1.9; margin-bottom: 2rem; }
 
   .skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .chip {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
-    background: var(--bg); border: 1px solid var(--border);
-    color: var(--muted); padding: 0.35rem 0.8rem; border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem; border-radius: 2px;
     transition: border-color 0.2s, color 0.2s;
   }
   .chip:hover { border-color: var(--accent); color: var(--accent); }
 
   .highlight-cards { display: flex; flex-direction: column; gap: 1rem; }
-  .h-card {
-    background: var(--bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 1.4rem;
-    display: flex; gap: 1rem; align-items: flex-start;
-    transition: border-color 0.2s;
-  }
-  .h-card:hover { border-color: rgba(63,185,80,0.2); }
-  .h-icon { font-size: 1.4rem; flex-shrink: 0; }
-  .h-content h4 { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
-  .h-content p  { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+  .h-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; display: flex; gap: 1.2rem; align-items: flex-start; transition: border-color 0.3s; }
+  .h-card:hover { border-color: rgba(63,185,80,0.25); }
+  .h-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .h-content h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+  .h-content p  { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
 
   /* ── FOOTER ── */
   footer {
     padding: 3rem 4rem;
     border-top: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
   }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--white); letter-spacing: 0.1em; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--text); letter-spacing: 0.1em; }
   .footer-logo span { color: var(--accent); }
   .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); text-align: center; line-height: 1.8; }
   .footer-links { display: flex; gap: 1.5rem; }
@@ -532,9 +523,23 @@
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeIn { from { opacity: 0; } to   { opacity: 1; } }
 
+  /* ── SCROLLBAR ── */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--surface); border-radius: 3px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-mockup { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .bg-grid, .challenges-grid, .role-grid, .about-grid, .features-header { grid-template-columns: 1fr; gap: 2rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+  }
 </style>
 </head>
 <body>
@@ -543,13 +548,37 @@
 <nav>
   <div class="nav-logo">Easy<span>Stock</span></div>
   <ul class="nav-links">
-    <li><a href="#background">기획배경</a></li>
-    <li><a href="#features">핵심기능</a></li>
-    <li><a href="#tech">기술챌린지</a></li>
-    <li><a href="#impact">임팩트</a></li>
-    <li><a href="#about">기획자</a></li>
+    <li><a href="#background">
+      <span data-ko>기획배경</span>
+      <span data-en>Background</span>
+    </a></li>
+    <li><a href="#features">
+      <span data-ko>핵심기능</span>
+      <span data-en>Features</span>
+    </a></li>
+    <li><a href="#tech">
+      <span data-ko>기술챌린지</span>
+      <span data-en>Tech</span>
+    </a></li>
+    <li><a href="#impact">
+      <span data-ko>임팩트</span>
+      <span data-en>Impact</span>
+    </a></li>
+    <li><a href="#about">
+      <span data-ko>기획자</span>
+      <span data-en>About</span>
+    </a></li>
   </ul>
-  <div class="nav-tag">FinTech AI</div>
+  <div class="nav-right">
+    <div class="nav-tag">FinTech AI</div>
+    <div class="lang-toggle" id="langToggle" title="Switch Language">
+      <span class="lang-toggle-label active" id="labelKo">KO</span>
+      <div class="toggle-switch">
+        <div class="toggle-knob"></div>
+      </div>
+      <span class="lang-toggle-label" id="labelEn">EN</span>
+    </div>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -557,20 +586,30 @@
   <div class="hero-glow"></div>
 
   <div>
-    <div class="hero-label">AI Product Portfolio · 박소현</div>
+    <div class="hero-label">
+      <span data-ko>AI Product Portfolio · 박소현</span>
+      <span data-en>AI Product Portfolio · Sohyeon Park</span>
+    </div>
     <h1 class="hero-title">
-      AI가 만드는<br>가장 현실적인<br><span class="outline">주식 시장</span>
+      <span data-ko>AI가 만드는<br>가장 현실적인<br><span class="outline">주식 시장</span></span>
+      <span data-en>THE MOST<br>REALISTIC<br><span class="outline">STOCK MARKET</span></span>
     </h1>
     <p class="hero-sub">
-      행동경제학 기반 <strong>500명 AI 에이전트 사회</strong>와 레벨 기반 학습 시스템으로, 단순 모의투자를 넘어 실제 심리·유동성·전략 상호작용을 경험하는 AI 투자 교육 플랫폼입니다.
+      <span data-ko>행동경제학 기반 <strong>500명 AI 에이전트 사회</strong>와 레벨 기반 학습 시스템으로, 단순 모의투자를 넘어 실제 심리·유동성·전략 상호작용을 경험하는 AI 투자 교육 플랫폼입니다.</span>
+      <span data-en>An AI-driven investment education platform featuring a <strong>500-agent generative society</strong>. Experience real-world liquidity, psychological biases, and market interactions through behavioral economics.</span>
     </p>
     <div class="hero-cta">
-      <a href="#features" class="btn-primary">핵심 기능 보기 →</a>
-      <a href="#tech" class="btn-ghost">기술 챌린지</a>
+      <a href="#features" class="btn-primary">
+        <span data-ko>핵심 기능 보기 →</span>
+        <span data-en>View Core Features →</span>
+      </a>
+      <a href="#tech" class="btn-ghost">
+        <span data-ko>기술 챌린지</span>
+        <span data-en>Tech Challenges</span>
+      </a>
     </div>
   </div>
 
-  <!-- Mini Stock Dashboard Mockup -->
   <div class="hero-mockup">
     <div class="mockup-card">
       <div class="mockup-bar">
@@ -590,8 +629,6 @@
             <div class="ticker-change">+2.34%  ↑</div>
           </div>
         </div>
-
-        <!-- SVG mini candlestick chart -->
         <div class="mini-chart">
           <svg viewBox="0 0 320 80" preserveAspectRatio="none">
             <defs>
@@ -600,34 +637,49 @@
                 <stop offset="100%" stop-color="#3fb950" stop-opacity="0"/>
               </linearGradient>
             </defs>
-            <!-- area fill -->
             <path d="M0 60 L20 55 L40 58 L60 50 L80 45 L100 48 L120 38 L140 35 L160 40 L180 30 L200 25 L220 28 L240 18 L260 22 L280 15 L300 10 L320 8 L320 80 L0 80 Z" fill="url(#chartGrad)"/>
-            <!-- line -->
             <polyline points="0,60 20,55 40,58 60,50 80,45 100,48 120,38 140,35 160,40 180,30 200,25 220,28 240,18 260,22 280,15 300,10 320,8" fill="none" stroke="#3fb950" stroke-width="1.5"/>
           </svg>
         </div>
-
         <div class="agent-row">
-          <span class="agent-chip chip-stable">🐘 안정형 에이전트</span>
-          <span class="agent-chip chip-aggro">⚡ 공격형 에이전트</span>
-          <span class="agent-chip chip-mentor">🤖 AI 멘토</span>
+          <span class="agent-chip chip-stable">
+            <span data-ko>🐘 안정형 에이전트</span>
+            <span data-en>🐘 Stable Agent</span>
+          </span>
+          <span class="agent-chip chip-aggro">
+            <span data-ko>⚡ 공격형 에이전트</span>
+            <span data-en>⚡ Aggressive Agent</span>
+          </span>
+          <span class="agent-chip chip-mentor">
+            <span data-ko>🤖 AI 멘토</span>
+            <span data-en>🤖 AI Mentor</span>
+          </span>
         </div>
-
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--muted);margin-bottom:0.4rem;">MARKET ACTIVITY · 500 AGENTS LIVE</div>
         <div style="display:flex;gap:1rem;margin-bottom:0.8rem;">
-          <div style="font-size:0.72rem;color:var(--accent);">매수 263명 ↑</div>
-          <div style="font-size:0.72rem;color:var(--accent-red);">매도 237명 ↓</div>
+          <div style="font-size:0.72rem;color:var(--accent);">
+            <span data-ko>매수 263명 ↑</span>
+            <span data-en>Buy: 263 Agents ↑</span>
+          </div>
+          <div style="font-size:0.72rem;color:var(--accent-red);">
+            <span data-ko>매도 237명 ↓</span>
+            <span data-en>Sell: 237 Agents ↓</span>
+          </div>
         </div>
-
         <div class="level-bar-wrap">
           <div class="level-bar-label">
-            <span>Lv.7 투자 전문가</span>
+            <span>
+              <span data-ko>Lv.7 투자 전문가</span>
+              <span data-en>Lv.7 Expert Trader</span>
+            </span>
             <span>72% → Lv.8</span>
           </div>
           <div class="level-bar"><div class="level-fill"></div></div>
         </div>
-
-        <div class="quest-tag">🏆 퀘스트: 5일 연속 수익 달성 (3/5)</div>
+        <div class="quest-tag">
+          <span data-ko>🏆 퀘스트: 5일 연속 수익 달성 (3/5)</span>
+          <span data-en>🏆 Quest: 5-Day Profit Streak (3/5)</span>
+        </div>
       </div>
     </div>
   </div>
@@ -636,39 +688,69 @@
 <!-- BACKGROUND -->
 <section id="background">
   <div class="section-label">01 · Background</div>
-  <h2 class="section-title">기획 배경 &<br>서비스 핵심 가치</h2>
+  <h2 class="section-title">
+    <span data-ko>기획 배경 &<br>서비스 핵심 가치</span>
+    <span data-en>Planning Context &<br>Core Values</span>
+  </h2>
 
   <div class="bg-grid">
     <div>
-      <p class="section-desc" style="margin-bottom:2rem;">이론 중심 투자 교육의 한계와 단순 시세 반영형 모의투자 플랫폼의 구조적 문제를 해결하는 실전형 AI 학습 환경을 설계했습니다.</p>
+      <p class="section-desc" style="margin-bottom:2rem;">
+        <span data-ko>이론 중심 투자 교육의 한계와 단순 시세 반영형 모의투자 플랫폼의 구조적 문제를 해결하는 실전형 AI 학습 환경을 설계했습니다.</span>
+        <span data-en>Designed a hands-on AI learning environment to bridge the gap between theory-heavy education and isolated stock simulation tools.</span>
+      </p>
 
       <div class="problem-list">
         <div class="prob-item">
           <div class="prob-icon">📚</div>
           <div class="prob-content">
-            <h4>이론과 실전의 괴리</h4>
-            <p>개념 학습 후 실제 투자로 이어지는 경험 설계 부재</p>
+            <h4>
+              <span data-ko>이론과 실전의 괴리</span>
+              <span data-en>Theory-Practice Disconnect</span>
+            </h4>
+            <p>
+              <span data-ko>개념 학습 후 실제 투자로 이어지는 경험 설계 부재</span>
+              <span data-en>Lack of experiential design connecting concepts to actual execution.</span>
+            </p>
           </div>
         </div>
         <div class="prob-item">
           <div class="prob-icon">🧠</div>
           <div class="prob-content">
-            <h4>심리적 오류 반복</h4>
-            <p>탐욕·공포·군중심리 등 투자 심리 훈련 환경 없음</p>
+            <h4>
+              <span data-ko>심리적 오류 반복</span>
+              <span data-en>Repetitive Psychological Errors</span>
+            </h4>
+            <p>
+              <span data-ko>탐욕·공포·군중심리 등 투자 심리 훈련 환경 없음</span>
+              <span data-en>Absence of training for greed, fear, and herd mentality.</span>
+            </p>
           </div>
         </div>
         <div class="prob-item">
           <div class="prob-icon">📊</div>
           <div class="prob-content">
-            <h4>단순 시세형 모의투자 한계</h4>
-            <p>실제 시장과 다른 고립된 환경, 상호작용 부재</p>
+            <h4>
+              <span data-ko>단순 시세형 모의투자 한계</span>
+              <span data-en>Static Simulation Limits</span>
+            </h4>
+            <p>
+              <span data-ko>실제 시장과 다른 고립된 환경, 상호작용 부재</span>
+              <span data-en>Isolated environments that fail to reflect real market dynamics.</span>
+            </p>
           </div>
         </div>
         <div class="prob-item">
           <div class="prob-icon">🤝</div>
           <div class="prob-content">
-            <h4>시장 참여자 간 상호작용 부재</h4>
-            <p>다양한 투자 전략과 성향을 경험할 기회 없음</p>
+            <h4>
+              <span data-ko>시장 참여자 간 상호작용 부재</span>
+              <span data-en>Lack of Interaction</span>
+            </h4>
+            <p>
+              <span data-ko>다양한 투자 전략과 성향을 경험할 기회 없음</span>
+              <span data-en>No opportunity to experience diverse trading strategies and behaviors.</span>
+            </p>
           </div>
         </div>
       </div>
@@ -676,20 +758,44 @@
 
     <div class="value-cards reveal">
       <div class="value-card">
-        <h4>🎯 행동경제학 기반 투자 심리 학습</h4>
-        <p>탐욕·공포·군중심리 파라미터를 반영한 AI 에이전트와 실시간 상호작용하며 투자 심리 오류를 체험하고 교정합니다.</p>
+        <h4>
+          <span data-ko>🎯 행동경제학 기반 투자 심리 학습</span>
+          <span data-en>🎯 Behavioral Psychology Training</span>
+        </h4>
+        <p>
+          <span data-ko>탐욕·공포·군중심리 파라미터를 반영한 AI 에이전트와 실시간 상호작용하며 투자 심리 오류를 체험하고 교정합니다.</span>
+          <span data-en>Interact with AI agents reflecting greed/fear parameters to correct cognitive biases in real-time.</span>
+        </p>
       </div>
       <div class="value-card">
-        <h4>🤖 실시간 AI 에이전트 시장 상호작용</h4>
-        <p>500명 규모의 AI 생태계와 실제 매수·매도·시장 유동성 변화를 경험합니다. 인간 투자 심리 유사도 74% 구현.</p>
+        <h4>
+          <span data-ko>🤖 실시간 AI 에이전트 시장 상호작용</span>
+          <span data-en>🤖 500-Agent Market Ecosystem</span>
+        </h4>
+        <p>
+          <span data-ko>500명 규모의 AI 생태계와 실제 매수·매도·시장 유동성 변화를 경험합니다. 인간 투자 심리 유사도 74% 구현.</span>
+          <span data-en>Experience real-world liquidity and order flows. Achieved 74% similarity to human investment sentiment.</span>
+        </p>
       </div>
       <div class="value-card">
-        <h4>💬 개인화 AI 멘토 피드백</h4>
-        <p>4가지 투자 철학 기반 멘토가 매매 기록을 분석해 맞춤 피드백을 제공하고 양방향 챗봇으로 메타인지를 향상시킵니다.</p>
+        <h4>
+          <span data-ko>💬 개인화 AI 멘토 피드백</span>
+          <span data-en>💬 Personalized AI Mentorship</span>
+        </h4>
+        <p>
+          <span data-ko>4가지 투자 철학 기반 멘토가 매매 기록을 분석해 맞춤 피드백을 제공하고 양방향 챗봇으로 메타인지를 향상시킵니다.</span>
+          <span data-en>Four distinct mentor personas provide analysis and feedback to enhance metacognition through 2-way chat.</span>
+        </p>
       </div>
       <div class="value-card">
-        <h4>💰 비용 최적화를 고려한 상용화 가능 구조</h4>
-        <p>프롬프트 압축·동적 라우팅으로 API 비용 49.5% 절감하면서 에이전트 지능 점수 93.4점을 유지합니다.</p>
+        <h4>
+          <span data-ko>💰 비용 최적화를 고려한 상용화 가능 구조</span>
+          <span data-en>💰 Cost-Effective Commercial Architecture</span>
+        </h4>
+        <p>
+          <span data-ko>프롬프트 압축·동적 라우팅으로 API 비용 49.5% 절감하면서 에이전트 지능 점수 93.4점을 유지합니다.</span>
+          <span data-en>Reduced API costs by 49.5% via prompt compression and dynamic routing while maintaining agent IQ.</span>
+        </p>
       </div>
     </div>
   </div>
@@ -700,45 +806,96 @@
   <div class="features-header">
     <div>
       <div class="section-label">02 · Core Features</div>
-      <h2 class="section-title">3가지<br>핵심 기능</h2>
+      <h2 class="section-title">
+        <span data-ko>3가지<br>핵심 기능</span>
+        <span data-en>3 Pillars of<br>Intelligence</span>
+      </h2>
     </div>
-    <p class="section-desc">단계별 학습 시스템, 생성형 에이전트 사회, AI 멘토 피드백이 유기적으로 연결되어 "개념 → 실습 → 피드백 → 전략 수정"의 완벽한 순환 학습 루프를 구현합니다.</p>
+    <p class="section-desc">
+      <span data-ko>단계별 학습 시스템, 생성형 에이전트 사회, AI 멘토 피드백이 유기적으로 연결되어 "개념 → 실습 → 피드백 → 전략 수정"의 완벽한 순환 학습 루프를 구현합니다.</span>
+      <span data-en>A seamless learning loop where "Concept → Practice → Feedback → Strategy Pivot" is enabled by generative agents and personalized mentorship.</span>
+    </p>
   </div>
 
   <div class="features-grid reveal">
     <div class="feat-block">
       <div class="feat-num">1</div>
       <div class="feat-icon-wrap">🎮</div>
-      <h3>생성형 에이전트 사회</h3>
-      <p>500명 규모 AI 투자자 생태계. 단순 알고리즘이 아닌 인간의 비이성적 판단까지 모사하는 에이전트를 구축했습니다. 고래/개미 자본 규모를 분리하고 탐욕·공포·군중심리 파라미터를 반영합니다.</p>
+      <h3>
+        <span data-ko>생성형 에이전트 사회</span>
+        <span data-en>Generative Agent Society</span>
+      </h3>
+      <p>
+        <span data-ko>500명 규모 AI 투자자 생태계. 단순 알고리즘이 아닌 인간의 비이성적 판단까지 모사하는 에이전트를 구축했습니다. 고래/개미 자본 규모를 분리하고 탐욕·공포·군중심리 파라미터를 반영합니다.</span>
+        <span data-en>500 AI investors simulating irrational human behaviors. Distinguishes between 'Whales' and 'Retail' with unique capital scales and psychological parameters.</span>
+      </p>
       <div class="feat-tags">
-        <span class="feat-tag">500명 AI 에이전트</span>
-        <span class="feat-tag">행동경제학</span>
-        <span class="feat-tag">유사도 74%</span>
+        <span class="feat-tag">
+          <span data-ko>500명 AI 에이전트</span>
+          <span data-en>500 AI Agents</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>행동경제학</span>
+          <span data-en>Behavioral Econ</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>유사도 74%</span>
+          <span data-en>74% Sentiment Accuracy</span>
+        </span>
       </div>
     </div>
 
     <div class="feat-block">
       <div class="feat-num">2</div>
       <div class="feat-icon-wrap">🤖</div>
-      <h3>AI 멘토 대시보드</h3>
-      <p>4가지 투자 철학 기반 멘토(안정형·퀀트·모멘텀·역발상)가 실시간 포트폴리오를 분석하고 매매 기록 기반 개인화 피드백을 제공합니다. 양방향 챗봇으로 메타인지를 향상시킵니다.</p>
+      <h3>
+        <span data-ko>AI 멘토 대시보드</span>
+        <span data-en>AI Mentor Dashboard</span>
+      </h3>
+      <p>
+        <span data-ko>4가지 투자 철학 기반 멘토(안정형·퀀트·모멘텀·역발상)가 실시간 포트폴리오를 분석하고 매매 기록 기반 개인화 피드백을 제공합니다. 양방향 챗봇으로 메타인지를 향상시킵니다.</span>
+        <span data-en>Real-time portfolio analysis based on 4 philosophies (Stable, Quant, Momentum, Contrarian) with personalized feedback loops.</span>
+      </p>
       <div class="feat-tags">
-        <span class="feat-tag">4가지 멘토 유형</span>
-        <span class="feat-tag">개인화 피드백</span>
-        <span class="feat-tag">챗봇 인터페이스</span>
+        <span class="feat-tag">
+          <span data-ko>4가지 멘토 유형</span>
+          <span data-en>4 Mentor Personas</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>개인화 피드백</span>
+          <span data-en>Personalized Feedback</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>챗봇 인터페이스</span>
+          <span data-en>Metacognition Hub</span>
+        </span>
       </div>
     </div>
 
     <div class="feat-block">
       <div class="feat-num">3</div>
       <div class="feat-icon-wrap">📈</div>
-      <h3>레벨 기반 학습 시스템</h3>
-      <p>Beginner → Expert 단계별 구조로 기초부터 심화까지 성장 퀘스트를 설계했습니다. "개념 학습 → 실전 투자 → 피드백 → 전략 수정"의 완벽한 순환 구조를 구현합니다.</p>
+      <h3>
+        <span data-ko>레벨 기반 학습 시스템</span>
+        <span data-en>Level-Based Growth</span>
+      </h3>
+      <p>
+        <span data-ko>Beginner → Expert 단계별 구조로 기초부터 심화까지 성장 퀘스트를 설계했습니다. "개념 학습 → 실전 투자 → 피드백 → 전략 수정"의 완벽한 순환 구조를 구현합니다.</span>
+        <span data-en>A structured "Beginner to Expert" roadmap with quests designed to guide users through the entire trading lifecycle.</span>
+      </p>
       <div class="feat-tags">
-        <span class="feat-tag">레벨업 퀘스트</span>
-        <span class="feat-tag">퀴즈 시스템</span>
-        <span class="feat-tag">성장 지표</span>
+        <span class="feat-tag">
+          <span data-ko>레벨업 퀘스트</span>
+          <span data-en>Level-up Quests</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>퀴즈 시스템</span>
+          <span data-en>Growth Indicators</span>
+        </span>
+        <span class="feat-tag">
+          <span data-ko>성장 지표</span>
+          <span data-en>Adaptive Curriculum</span>
+        </span>
       </div>
     </div>
   </div>
@@ -747,43 +904,100 @@
 <!-- TECH CHALLENGES -->
 <section id="tech">
   <div class="section-label">03 · Technical Challenges</div>
-  <h2 class="section-title">기술 챌린지 &<br>해결 전략</h2>
-  <p class="section-desc">3가지 핵심 기술 문제를 직접 정의하고 해결하여 상용화 가능한 아키텍처를 설계했습니다.</p>
+  <h2 class="section-title">
+    <span data-ko>기술 챌린지 &<br>해결 전략</span>
+    <span data-en>Engineering &<br>Solution Strategy</span>
+  </h2>
+  <p class="section-desc">
+    <span data-ko>3가지 핵심 기술 문제를 직접 정의하고 해결하여 상용화 가능한 아키텍처를 설계했습니다.</span>
+    <span data-en>Solved three critical technical bottlenecks to build a commercially viable AI architecture.</span>
+  </p>
 
   <div class="challenges-grid reveal">
     <div class="challenge-list">
       <div class="challenge-card resolved">
         <div class="ch-num">CHALLENGE 01</div>
-        <h4>LLM API 비용 폭증</h4>
-        <p class="ch-problem">500명 에이전트가 매 틱마다 뉴스를 분석하며 Azure OpenAI 토큰 비용이 급증하는 문제가 발생했습니다.</p>
-        <div class="ch-solution-label">해결 전략</div>
-        <p class="ch-solution">메타 휴리스틱 기반 워크플로우 최적화 (GA + SA), 프롬프트 압축률 최적화, 동적 라우팅 구조 설계, 자가 검증 노드 배치 구조 개선</p>
-        <span class="ch-result">API 비용 49.5% 절감 · 에이전트 지능 점수 93.4 유지</span>
+        <h4>
+          <span data-ko>LLM API 비용 폭증</span>
+          <span data-en>LLM API Cost Surge</span>
+        </h4>
+        <p class="ch-problem">
+          <span data-ko>500명 에이전트가 매 틱마다 뉴스를 분석하며 Azure OpenAI 토큰 비용이 급증하는 문제가 발생했습니다.</span>
+          <span data-en>500 agents analyzing news per tick led to an unsustainable spike in Azure OpenAI token costs.</span>
+        </p>
+        <div class="ch-solution-label">
+          <span data-ko>해결 전략</span>
+          <span data-en>Solution Strategy</span>
+        </div>
+        <p class="ch-solution">
+          <span data-ko>메타 휴리스틱 기반 워크플로우 최적화 (GA + SA), 프롬프트 압축률 최적화, 동적 라우팅 구조 설계, 자가 검증 노드 배치 구조 개선</span>
+          <span data-en>Meta-heuristic workflow optimization (GA+SA), prompt compression, and dynamic routing with self-verification nodes.</span>
+        </p>
+        <span class="ch-result">
+          <span data-ko>API 비용 49.5% 절감 · 에이전트 지능 점수 93.4 유지</span>
+          <span data-en>49.5% Cost Reduction · 93.4 Intelligence Score Maintained</span>
+        </span>
       </div>
 
       <div class="challenge-card resolved">
         <div class="ch-num">CHALLENGE 02</div>
-        <h4>Human-in-the-Loop 병목</h4>
-        <p class="ch-problem">AI 주문 대기열로 인한 사용자 체결 지연이 발생해 체감 UX가 크게 저하되었습니다.</p>
-        <div class="ch-solution-label">해결 전략</div>
-        <p class="ch-solution">Market Maker 기반 동적 유동성 공급 로직 설계, 정상 호가 범위 내 즉시 체결 구조 구현</p>
-        <span class="ch-result">사용자 주문 1초 이내 체결 · 체감 UX 대폭 개선</span>
+        <h4>
+          <span data-ko>Human-in-the-Loop 병목</span>
+          <span data-en>Human-in-the-Loop Latency</span>
+        </h4>
+        <p class="ch-problem">
+          <span data-ko>AI 주문 대기열로 인한 사용자 체결 지연이 발생해 체감 UX가 크게 저하되었습니다.</span>
+          <span data-en>Queue bottlenecks in AI order processing led to poor UX and delayed trade executions.</span>
+        </p>
+        <div class="ch-solution-label">
+          <span data-ko>해결 전략</span>
+          <span data-en>Solution Strategy</span>
+        </div>
+        <p class="ch-solution">
+          <span data-ko>Market Maker 기반 동적 유동성 공급 로직 설계, 정상 호가 범위 내 즉시 체결 구조 구현</span>
+          <span data-en>Market Maker-based dynamic liquidity logic and instant execution within valid quote ranges.</span>
+        </p>
+        <span class="ch-result">
+          <span data-ko>사용자 주문 1초 이내 체결 · 체감 UX 대폭 개선</span>
+          <span data-en>Sub-second Execution · Dramatic UX Improvement</span>
+        </span>
       </div>
 
       <div class="challenge-card resolved">
         <div class="ch-num">CHALLENGE 03</div>
-        <h4>DB 과부하 & 성능 저하</h4>
-        <p class="ch-problem">trades 테이블 수십만 건 누적으로 Full Table Scan이 발생해 쿼리 성능이 급격히 저하되었습니다.</p>
-        <div class="ch-solution-label">해결 전략</div>
-        <p class="ch-solution">Timestamp 인덱싱 적용, 거래량 계산 로직 비동기 분리, 메모리 플러시 스크립트 설계</p>
-        <span class="ch-result">쿼리 성능 최적화 완료</span>
+        <h4>
+          <span data-ko>DB 과부하 & 성능 저하</span>
+          <span data-en>Database Performance Bottleneck</span>
+        </h4>
+        <p class="ch-problem">
+          <span data-ko>trades 테이블 수십만 건 누적으로 Full Table Scan이 발생해 쿼리 성능이 급격히 저하되었습니다.</span>
+          <span data-en>Trade table accumulation caused Full Table Scans, degrading query performance during peak loads.</span>
+        </p>
+        <div class="ch-solution-label">
+          <span data-ko>해결 전략</span>
+          <span data-en>Solution Strategy</span>
+        </div>
+        <p class="ch-solution">
+          <span data-ko>Timestamp 인덱싱 적용, 거래량 계산 로직 비동기 분리, 메모리 플러시 스크립트 설계</span>
+          <span data-en>Timestamp indexing, asynchronous volume calculation decoupling, and memory flush scripts.</span>
+        </p>
+        <span class="ch-result">
+          <span data-ko>쿼리 성능 최적화 완료</span>
+          <span data-en>Optimized Query Performance</span>
+        </span>
       </div>
     </div>
 
     <div>
       <div class="arch-box">
-        <h3>시스템 아키텍처</h3>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:1.2rem;">4-Tier Architecture · 순환형 데이터 파이프라인</div>
+        <h3>
+          <span data-ko>시스템 아키텍처</span>
+          <span data-en>System Architecture</span>
+        </h3>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);margin-bottom:1.2rem;">
+          <span data-ko>4-Tier Architecture · 순환형 데이터 파이프라인</span>
+          <span data-en>4-Tier Architecture · Circular Data Pipeline</span>
+        </div>
 
         <div class="tier-row">
           <div class="tier-label">CLIENT</div>
@@ -813,15 +1027,30 @@
         <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--muted);margin-bottom:0.8rem;">DATA PIPELINE LOOP</div>
           <div style="display:flex;flex-wrap:wrap;gap:0.4rem;align-items:center;">
-            <span style="font-size:0.72rem;color:var(--text);">뉴스 수집</span>
+            <span style="font-size:0.72rem;color:var(--text);">
+              <span data-ko>뉴스 수집</span>
+              <span data-en>News Ingestion</span>
+            </span>
             <span style="color:var(--accent);font-size:0.8rem;">→</span>
-            <span style="font-size:0.72rem;color:var(--text);">AI 분석</span>
+            <span style="font-size:0.72rem;color:var(--text);">
+              <span data-ko>AI 분석</span>
+              <span data-en>AI Analysis</span>
+            </span>
             <span style="color:var(--accent);font-size:0.8rem;">→</span>
-            <span style="font-size:0.72rem;color:var(--text);">에이전트 행동</span>
+            <span style="font-size:0.72rem;color:var(--text);">
+              <span data-ko>에이전트 행동</span>
+              <span data-en>Agent Action</span>
+            </span>
             <span style="color:var(--accent);font-size:0.8rem;">→</span>
-            <span style="font-size:0.72rem;color:var(--text);">시장 변동</span>
+            <span style="font-size:0.72rem;color:var(--text);">
+              <span data-ko>시장 변동</span>
+              <span data-en>Market Shift</span>
+            </span>
             <span style="color:var(--accent);font-size:0.8rem;">→</span>
-            <span style="font-size:0.72rem;color:var(--text);">피드백</span>
+            <span style="font-size:0.72rem;color:var(--text);">
+              <span data-ko>피드백</span>
+              <span data-en>Feedback</span>
+            </span>
             <span style="color:var(--accent-gold);font-size:0.8rem;">↩</span>
           </div>
         </div>
@@ -833,43 +1062,91 @@
 <!-- IMPACT -->
 <section id="impact">
   <div class="section-label">04 · Impact & Role</div>
-  <h2 class="section-title">프로젝트 임팩트 &<br>기획 역할</h2>
+  <h2 class="section-title">
+    <span data-ko>프로젝트 임팩트 &<br>기획 역할</span>
+    <span data-en>Project Impact &<br>My Contributions</span>
+  </h2>
 
   <div class="stats-row reveal">
     <div class="stat-cell">
       <div class="big">49.5<span style="font-size:2rem;">%</span></div>
-      <div class="label">API 비용 절감<br>지능 점수 유지</div>
+      <div class="label">
+        <span data-ko>API 비용 절감<br>지능 점수 유지</span>
+        <span data-en>API Cost Reduction<br>Intelligence Sustained</span>
+      </div>
     </div>
     <div class="stat-cell">
       <div class="big blue">&lt;1<span style="font-size:2rem;">s</span></div>
-      <div class="label">사용자 주문<br>체결 속도</div>
+      <div class="label">
+        <span data-ko>사용자 주문<br>체결 속도</span>
+        <span data-en>User Order<br>Execution Speed</span>
+      </div>
     </div>
     <div class="stat-cell">
-      <div class="big gold">500<span style="font-size:2rem;">명</span></div>
-      <div class="label">AI 에이전트<br>생태계 규모</div>
+      <div class="big gold">500</div>
+      <div class="label">
+        <span data-ko>AI 에이전트<br>생태계 규모</span>
+        <span data-en>Live AI Agents<br>Active Ecosystem</span>
+      </div>
     </div>
     <div class="stat-cell">
       <div class="big">74<span style="font-size:2rem;">%</span></div>
-      <div class="label">인간 투자 심리<br>유사도 (백테스팅)</div>
+      <div class="label">
+        <span data-ko>인간 투자 심리<br>유사도 (백테스팅)</span>
+        <span data-en>Human Sentiment<br>Backtesting Accuracy</span>
+      </div>
     </div>
   </div>
 
   <div class="role-grid reveal">
     <div class="role-card">
-      <h3>👩‍💼 기획 역할 (Planning Role)</h3>
-      <div class="role-item"><div class="role-dot"></div>인앱 UI/UX 정보 구조(IA) 및 사용자 동선 최적화 설계</div>
-      <div class="role-item"><div class="role-dot"></div>AI 멘토 개인화 피드백 UX 및 페르소나 기획</div>
-      <div class="role-item"><div class="role-dot"></div>행동경제학 기반 학습 루프 구조화</div>
-      <div class="role-item"><div class="role-dot"></div>기술 제약을 고려한 실행 가능한 서비스 구조 기획</div>
-      <div class="role-item"><div class="role-dot"></div>시연 영상 스토리라인 구성 및 제작</div>
+      <h3>
+        <span data-ko>👩‍💼 기획 역할 (Planning Role)</span>
+        <span data-en>👩‍💼 Planning Role</span>
+      </h3>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>인앱 UI/UX 정보 구조(IA) 및 사용자 동선 최적화 설계</span>
+        <span data-en>IA & UX journey optimization for in-app flow.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>AI 멘토 개인화 피드백 UX 및 페르소나 기획</span>
+        <span data-en>AI Mentor persona design & feedback logic.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>행동경제학 기반 학습 루프 구조화</span>
+        <span data-en>Behavioral economics-based learning loop structuring.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>기술 제약을 고려한 실행 가능한 서비스 구조 기획</span>
+        <span data-en>Feasibility study considering technical constraints.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>시연 영상 스토리라인 구성 및 제작</span>
+        <span data-en>Demo video production & storytelling.</span>
+      </div>
     </div>
 
     <div class="role-card">
-      <h3>🏆 핵심 성과 요약</h3>
-      <div class="role-item"><div class="role-dot"></div>Azure OpenAI API 비용 49.5% 절감 달성 (Pareto 최적점 도달)</div>
-      <div class="role-item"><div class="role-dot"></div>사용자 주문 Sub-second 체결 구조 구현</div>
-      <div class="role-item"><div class="role-dot"></div>대규모 생성형 에이전트 기반 상용화 가능 아키텍처 설계</div>
-      <div class="role-item"><div class="role-dot"></div>투자 심리 74% 유사도 백테스팅 검증 완료</div>
+      <h3>
+        <span data-ko>🏆 핵심 성과 요약</span>
+        <span data-en>🏆 Key Achievements</span>
+      </h3>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>Azure OpenAI API 비용 49.5% 절감 달성 (Pareto 최적점 도달)</span>
+        <span data-en>Reached Pareto optimality in LLM cost vs. performance.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>사용자 주문 Sub-second 체결 구조 구현</span>
+        <span data-en>Implemented sub-second trade execution logic.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>대규모 생성형 에이전트 기반 상용화 가능 아키텍처 설계</span>
+        <span data-en>Designed commercially viable large-scale agent architecture.</span>
+      </div>
+      <div class="role-item"><div class="role-dot"></div>
+        <span data-ko>투자 심리 74% 유사도 백테스팅 검증 완료</span>
+        <span data-en>Validated 74% similarity to real-world investor behavior.</span>
+      </div>
     </div>
   </div>
 </section>
@@ -879,20 +1156,39 @@
   <div class="section-label">05 · About</div>
   <div class="about-grid">
     <div>
-      <div class="about-name">박소현</div>
+      <div class="about-name">
+        <span data-ko>박소현</span>
+        <span data-en>Sohyeon Park</span>
+      </div>
       <div class="about-role">AI PRODUCT PLANNER</div>
       <p class="about-text">
-        FinTech 서비스의 핵심 사용자 문제인 "투자 심리 훈련"을 AI로 해결하고자 EasyStock을 기획했습니다. 단순 기능 기획을 넘어 행동경제학 원리를 서비스 구조에 내재화하고, 기술 제약 속에서 상용화 가능한 아키텍처를 설계하는 데 집중했습니다.
+        <span data-ko>FinTech 서비스의 핵심 사용자 문제인 "투자 심리 훈련"을 AI로 해결하고자 EasyStock을 기획했습니다. 단순 기능 기획을 넘어 행동경제학 원리를 서비스 구조에 내재화하고, 기술 제약 속에서 상용화 가능한 아키텍처를 설계하는 데 집중했습니다.</span>
+        <span data-en>I conceived EasyStock to solve a core problem in FinTech: "How do we train for the psychological battle of investing?" Beyond feature planning, I focused on embedding behavioral economic principles into the system architecture while ensuring commercial viability within technical limits.</span>
       </p>
       <div class="skill-chips">
         <span class="chip">AI Product Planning</span>
         <span class="chip">FinTech UX</span>
         <span class="chip">Azure OpenAI</span>
-        <span class="chip">행동경제학</span>
-        <span class="chip">LLM 최적화</span>
-        <span class="chip">에이전트 설계</span>
-        <span class="chip">IA 설계</span>
-        <span class="chip">서비스 기획</span>
+        <span class="chip">
+          <span data-ko>행동경제학</span>
+          <span data-en>Behavioral Economics</span>
+        </span>
+        <span class="chip">
+          <span data-ko>LLM 최적화</span>
+          <span data-en>LLM Optimization</span>
+        </span>
+        <span class="chip">
+          <span data-ko>에이전트 설계</span>
+          <span data-en>Agent System Design</span>
+        </span>
+        <span class="chip">
+          <span data-ko>IA 설계</span>
+          <span data-en>Information Architecture</span>
+        </span>
+        <span class="chip">
+          <span data-ko>서비스 기획</span>
+          <span data-en>Service Planning</span>
+        </span>
       </div>
     </div>
 
@@ -900,22 +1196,40 @@
       <div class="h-card">
         <div class="h-icon">🧠</div>
         <div class="h-content">
-          <h4>행동경제학을 서비스 구조로 내재화</h4>
-          <p>탐욕·공포·군중심리 등 투자 심리 이론을 에이전트 파라미터와 학습 루프에 직접 설계하여 이론과 실전을 연결했습니다.</p>
+          <h4>
+            <span data-ko>행동경제학을 서비스 구조로 내재화</span>
+            <span data-en>Psychology-Driven Design</span>
+          </h4>
+          <p>
+            <span data-ko>탐욕·공포·군중심리 등 투자 심리 이론을 에이전트 파라미터와 학습 루프에 직접 설계하여 이론과 실전을 연결했습니다.</span>
+            <span data-en>Translated abstract theories (Greed/Fear) into concrete agent parameters and learning loops.</span>
+          </p>
         </div>
       </div>
       <div class="h-card">
         <div class="h-icon">💡</div>
         <div class="h-content">
-          <h4>기술 제약을 기회로 전환한 비용 최적화</h4>
-          <p>LLM 비용 폭증 문제를 메타 휴리스틱(GA·SA) 기반 워크플로우 최적화로 해결. API 비용 49.5% 절감과 지능 점수 유지를 동시에 달성했습니다.</p>
+          <h4>
+            <span data-ko>기술 제약을 기회로 전환한 비용 최적화</span>
+            <span data-en>Efficiency as a Catalyst</span>
+          </h4>
+          <p>
+            <span data-ko>LLM 비용 폭증 문제를 메타 휴리스틱(GA·SA) 기반 워크플로우 최적화로 해결. API 비용 49.5% 절감과 지능 점수 유지를 동시에 달성했습니다.</span>
+            <span data-en>Transformed cost constraints into opportunities via meta-heuristic optimization, achieving significant savings.</span>
+          </p>
         </div>
       </div>
       <div class="h-card">
         <div class="h-icon">📐</div>
         <div class="h-content">
-          <h4>PoC에서 상용화 가능 구조로</h4>
-          <p>4-Tier 아키텍처 설계와 Market Maker 기반 유동성 공급 로직으로 대규모 생성형 에이전트 서비스의 상용화 가능성을 검증했습니다.</p>
+          <h4>
+            <span data-ko>PoC에서 상용화 가능 구조로</span>
+            <span data-en>Scalability from PoC</span>
+          </h4>
+          <p>
+            <span data-ko>4-Tier 아키텍처 설계와 Market Maker 기반 유동성 공급 로직으로 대규모 생성형 에이전트 서비스의 상용화 가능성을 검증했습니다.</span>
+            <span data-en>Designed a 4-tier architecture and Market Maker logic to prove the commercial readiness of generative agent services.</span>
+          </p>
         </div>
       </div>
     </div>
@@ -925,17 +1239,54 @@
 <footer>
   <div class="footer-logo">Easy<span>Stock</span></div>
   <div class="footer-meta">
-    FinTech AI Portfolio · 박소현<br>
+    <span data-ko>FinTech AI Portfolio · 박소현</span>
+    <span data-en>FinTech AI Portfolio · Sohyeon Park</span>
+    <br>
     <span style="font-size:0.6rem;opacity:0.5;">Azure OpenAI · FastAPI · React · PostgreSQL · Genetic Algorithm</span>
   </div>
   <div class="footer-links">
-    <a href="#hero">↑ 맨 위로</a>
-    <a href="#background">기획배경</a>
-    <a href="#tech">기술챌린지</a>
+    <a href="#hero">
+      <span data-ko>↑ 맨 위로</span>
+      <span data-en>↑ Top</span>
+    </a>
+    <a href="#background">
+      <span data-ko>기획배경</span>
+      <span data-en>Context</span>
+    </a>
+    <a href="#tech">
+      <span data-ko>기술챌린지</span>
+      <span data-en>Tech</span>
+    </a>
   </div>
 </footer>
 
 <script>
+  // ── LANGUAGE TOGGLE ──
+  const toggle = document.getElementById('langToggle');
+  const labelKo = document.getElementById('labelKo');
+  const labelEn = document.getElementById('labelEn');
+  let isEn = false;
+
+  function setLang(en) {
+    isEn = en;
+    if (en) {
+      document.body.classList.add('lang-en');
+      document.documentElement.lang = 'en';
+      document.title = 'EasyStock — Sohyeon Park | AI Product Planner';
+      labelKo.classList.remove('active');
+      labelEn.classList.add('active');
+    } else {
+      document.body.classList.remove('lang-en');
+      document.documentElement.lang = 'ko';
+      document.title = 'EasyStock — 박소현 AI 프로덕트 기획자';
+      labelKo.classList.add('active');
+      labelEn.classList.remove('active');
+    }
+  }
+
+  toggle.addEventListener('click', () => setLang(!isEn));
+
+  // ── SCROLL REVEAL ──
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -946,6 +1297,7 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
+  // ── ACTIVE NAV ──
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
